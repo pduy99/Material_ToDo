@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="gray">#C0C0C0</color>
+    <color name="blue">#0066cc</color>
+    <color name="white">#ffffff</color>
+    <color name="violet">#503e9c</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#ffffff</color>
+    <color name="cyan">#3399ff</color>
+    <color name="pink">#bc79bb</color>
+    <color name="background_color">#5d6fc1</color>
+    <color name="deepblush">#e46d8d</color>
+    <color name="orange">#e56b68</color>
+    <color name="green">#4aa079</color>
+    <color name="lightseagreen">#20B2AA</color>
+    <color name="lightpink">#f2e7f8</color>
+    <color name="lavenderblush">#FFF0F5</color>
+    <color name="antiquewhite">#FAEBD7</color>
+    <color name="honeydew">#F0FFF0</color>
+    <color name="whitesmoke">#F5F5F5</color>
+    <color name="red">#FF0000</color>
+</resources>

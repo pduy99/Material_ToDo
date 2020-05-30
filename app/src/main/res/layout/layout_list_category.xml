@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="category"
+            type="com.example.taskmananger.models.Category" />
+    </data>
+<com.google.android.material.card.MaterialCardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageview_categoryIcon"
+                android:imageUrl="@{category.icon}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start" />
+
+            <TextView
+                android:id="@+id/textview_categoryName"
+                android:text="@{category.name}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textview_categorySize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numberOfTask="@{category.listItem}"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        
+</com.google.android.material.card.MaterialCardView>
+
+</layout>
