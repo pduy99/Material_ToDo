@@ -19,21 +19,21 @@ import com.agilie.swipe2delete.interfaces.ISwipeToDeleteHolder
 import com.example.taskmananger.R
 import com.example.taskmananger.databinding.LayoutListTodoBinding
 import com.example.taskmananger.models.ToDoItem
+import com.example.taskmananger.utils.AlarmUtil
 import com.example.taskmananger.viewmodels.MainViewModel
 import java.util.*
 
 class ToDoRecyclerViewAdapter(var context: Context,
                               var listToDo : MutableList<ToDoItem>,
                               private val viewmodel : MainViewModel,
-                              var onItemClick: (ToDoItem) -> Any)
+                              private var onItemClick: (ToDoItem) -> Any)
     : RecyclerView.Adapter<ToDoRecyclerViewAdapter.ViewHolder>(),
     ISwipeToDeleteAdapter<Int, ToDoItem,ToDoRecyclerViewAdapter.ViewHolder>,
     IAnimationUpdateListener,
     IAnimatorListener{
 
     val swipeToDeleteDelegate = SwipeToDeleteDelegate(items = listToDo, swipeToDeleteAdapter = this)
-
-    var animationEnabled = true
+    private var animationEnabled = true
     var bottomContainer = true
 
     init{
@@ -121,7 +121,7 @@ class ToDoRecyclerViewAdapter(var context: Context,
         holder.itemContainer.visibility = View.GONE
         if(bottomContainer){
             holder.apply {
-                deletedItemName.text = "You have deleted ${item.title}"
+                deletedItemName.text = "You have just deleted ${item.title}"
                 itemContainer.visibility = View.GONE
                 undoContainer.visibility = View.VISIBLE
                 if(animationEnabled){

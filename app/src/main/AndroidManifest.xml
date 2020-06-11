@@ -23,6 +23,9 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <receiver android:name=".receivers.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>

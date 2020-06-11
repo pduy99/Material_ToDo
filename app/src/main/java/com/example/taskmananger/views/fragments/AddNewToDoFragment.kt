@@ -1,10 +1,14 @@
 package com.example.taskmananger.views.fragments
 
+import android.app.AlarmManager
+import android.app.Application
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +20,8 @@ import com.example.taskmananger.R
 import com.example.taskmananger.models.ToDoItem
 import com.example.taskmananger.viewmodels.MainViewModel
 import androidx.lifecycle.Observer
+import com.example.taskmananger.App
+import com.example.taskmananger.utils.AlarmUtil
 import kotlinx.android.synthetic.main.fragment_add_new_to_do.*
 import java.util.*
 
@@ -23,6 +29,7 @@ class AddNewToDoFragment : Fragment() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var categoryName : String
+    private lateinit var  alarmManager : AlarmManager
 
     companion object {
         private const val CATEGORY_NAME = "CATEGORY_NAME"
@@ -54,6 +61,7 @@ class AddNewToDoFragment : Fragment() {
 
         (spinner_category.editText as AutoCompleteTextView).setText(categoryName)
         spinner_category.isActivated = false
+        alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         //Set date and time for ToDo
         val c = Calendar.getInstance()
@@ -65,7 +73,7 @@ class AddNewToDoFragment : Fragment() {
         val dpd = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             // Appear TimePicker right after user has selected date
             val timePicker = TimePickerDialog.OnTimeSetListener{ _, hour, minute ->
-                edittext_ToDoDateTime.setText("$dayOfMonth/$monthOfYear/$year  $hour:$minute") //Display Selected date and time in textbox
+                edittext_ToDoDateTime.setText("$dayOfMonth/${monthOfYear+1}/$year  $hour:$minute") //Display Selected date and time in textbox
             }
             TimePickerDialog(context, timePicker, hour, minute, true).show()
         }, year, month, day)
@@ -97,11 +105,12 @@ class AddNewToDoFragment : Fragment() {
                 val dueDate : Date = newDateFormat.parse(stringDueDate)
                 val place : String = edittext_ToDoPlace.text.toString()
                 val hasRemider : Boolean = switch_remind.isChecked
-
-                //Create new instance of ToDoItem and send back to MainActivity
                 val newToDo = ToDoItem(title, category, description, hasRemider,null, dueDate, place)
-
                 mainViewModel.addToDo(newToDo)
+                if(hasRemider){
+                    AlarmUtil.createAlarm(activity!!.applicationContext,newToDo,alarmManager)
+                    Log.d("ALARM", "Created alarm ${newToDo.title}")
+                }
                 activity!!.supportFragmentManager.popBackStack()
             }
         }

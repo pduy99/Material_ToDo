@@ -11,8 +11,9 @@
     <string name="delete_category_title">Delete this category ?</string>
     <string name="delete_category_warning">This action will also delete all notes in this category and cannot undo</string>
     <string name="cannot_delete_default_category">You cannot delete default category !</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reminder_notification_channel_id" translatable="false">reminder_channel</string>
+    <string name="reminder_notification_channel_name" translatable="true">Note Reminder</string>
+    <string name="reminder_notification_channel_description">Remind upcoming notes</string>
+    <string name="reminder_title">Note Reminder</string>
 
 </resources>
