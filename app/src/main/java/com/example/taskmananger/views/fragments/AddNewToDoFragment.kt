@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import com.example.taskmananger.App
 import com.example.taskmananger.utils.AlarmUtil
 import kotlinx.android.synthetic.main.fragment_add_new_to_do.*
+import kotlinx.android.synthetic.main.layout_date_time_picker.*
 import java.util.*
 
 class AddNewToDoFragment : Fragment() {
@@ -68,7 +69,7 @@ class AddNewToDoFragment : Fragment() {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val hour = c.get(Calendar.HOUR)
+        val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
         val dpd = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             // Appear TimePicker right after user has selected date
