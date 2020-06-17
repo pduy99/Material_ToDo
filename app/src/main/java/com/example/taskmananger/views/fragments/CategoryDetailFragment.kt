@@ -1,5 +1,6 @@
 package com.example.taskmananger.views.fragments
 
+import android.app.AlarmManager
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.example.taskmananger.adapters.ColorHorizontalSliderAdapter
 import com.example.taskmananger.adapters.ImageHorizontalSliderAdapter
 import com.example.taskmananger.adapters.ToDoRecyclerViewAdapter
+import com.example.taskmananger.utils.AlarmUtil
 import com.example.taskmananger.utils.Constant
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.ClassCastException
@@ -52,6 +54,7 @@ class CategoryDetailFragment : Fragment(){
     private lateinit var categoryBackgroundPickerLayout : LinearLayoutManager
     private lateinit var categoryIconPickerLayout : GridLayoutManager
     private lateinit var fabAddNewToDo : FloatingActionButton
+    private lateinit var alarmManager: AlarmManager
     lateinit var categoryDetailLayout : CoordinatorLayout
     lateinit var category: Category
     private lateinit var listener : OnClicked
@@ -91,6 +94,7 @@ class CategoryDetailFragment : Fragment(){
         mainViewModel.setListToDoItemByCategory(category.name)
         collapsingToolbarLayout = view.findViewById(R.id.category_detail_collapsetoolbar)
         fabAddNewToDo = view.findViewById(R.id.btnAddToDo)
+        alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         return view
     }
@@ -113,7 +117,10 @@ class CategoryDetailFragment : Fragment(){
 
     private fun initRecyclerView(){
         listToDoRecyclerViewAdapter = ToDoRecyclerViewAdapter(context!!,mainViewModel.getListToDoItem().value!!,mainViewModel){
-            toDoItem -> Toast.makeText(context,toDoItem.toString(),Toast.LENGTH_SHORT).show()
+            if(it.hasReminder) {
+                AlarmUtil.cancelAlarm(context!!, it, alarmManager)
+                Toast.makeText(context,"Deleted reminder ${it.title}",Toast.LENGTH_SHORT).show()
+            }
         }
         listToDoRecyclerViewAdapter.swipeToDeleteDelegate.pending = true
         categoryListToDoRecyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
@@ -258,6 +265,7 @@ class CategoryDetailFragment : Fragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home){
             activity!!.supportFragmentManager.popBackStack()
+            Toast.makeText(context,"Popback", Toast.LENGTH_LONG)
         }
         return super.onOptionsItemSelected(item)
     }

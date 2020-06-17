@@ -85,14 +85,14 @@ class ToDoRecyclerViewAdapter(var context: Context,
             itemContainer.visibility = View.VISIBLE
             undoData.visibility = View.GONE
             progressBar.visibility = View.GONE
-            itemContainer.setOnClickListener {
-                onItemClick.invoke(item)
-            }
         }
     }
 
     override fun removeItem(key: Int) {
+        val position : Int = findItemPositionByKey(key)
+        val toDoItem = listToDo[position]
         swipeToDeleteDelegate.removeItem(key)
+        onItemClick.invoke(toDoItem)
     }
 
     override fun onAnimationUpdated(animation: ValueAnimator?, options: ModelOptions<*>) {
