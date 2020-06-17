@@ -1,12 +1,15 @@
 package com.example.taskmananger.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProviders
 import com.example.taskmananger.R
 import com.example.taskmananger.models.Category
+import com.example.taskmananger.utils.INTENT_EXTRA_DESTINATION_FRAGMENT
 import com.example.taskmananger.viewmodels.MainViewModel
 import com.example.taskmananger.viewmodels.ListToDoViewModel
 import com.example.taskmananger.views.fragments.AddNewToDoFragment
@@ -22,9 +25,6 @@ class MainActivity : AppCompatActivity(), ListCategoryFragment.OnClicked, Catego
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Hide status bar
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         listToDoViewModel = ViewModelProviders.of(this).get(ListToDoViewModel::class.java)
         mainViewModel.loadList()
@@ -37,6 +37,27 @@ class MainActivity : AppCompatActivity(), ListCategoryFragment.OnClicked, Catego
                     ListCategoryFragment.newInstance(),"listCategory")
                 .commit()
         }
+
+        //If app is launched when user clicked on notification then navigate them to suitable fragment
+        val destinationFragment = intent.getStringExtra("destinationFragment")
+        if(destinationFragment != null) {
+            val category: Category = mainViewModel.getCategoryByName(destinationFragment)!!
+            val categoryDetailFragment = CategoryDetailFragment.newInstance(category)
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_right
+                )
+                .replace(R.id.root_layout, categoryDetailFragment, "categoryDetail")
+                .addToBackStack(null)
+                .commit()
+        }
+
+        //Hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     override fun onResume() {
