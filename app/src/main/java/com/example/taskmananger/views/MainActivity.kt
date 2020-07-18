@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskmananger.R
 import com.example.taskmananger.models.Category
-import com.example.taskmananger.utils.openFragment
 import com.example.taskmananger.viewmodels.MainViewModel
 import com.example.taskmananger.viewmodels.ListToDoViewModel
 import com.example.taskmananger.views.fragments.AddNewToDoFragment
@@ -70,4 +70,25 @@ class MainActivity : AppCompatActivity(), ListCategoryFragment.OnClicked, Catego
         openFragment(AddNewToDoFragment.newInstance(categoryName), "addNewToDo")
     }
 
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 0){
+            supportFragmentManager.popBackStackImmediate()
+        }else{
+            super.onBackPressed()
+        }
+    }
+
+    private fun openFragment(fragment:Fragment,tag:String){
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_left,
+                R.anim.slide_out_right,
+                R.anim.slide_in_right,
+                R.anim.slide_out_right
+            )
+            .replace(R.id.root_layout,fragment,tag)
+            .addToBackStack(null)
+            .commit()
+    }
 }
