@@ -1,7 +1,6 @@
 package com.example.taskmananger.views.fragments
 
 import android.app.AlarmManager
-import android.app.Application
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -15,15 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
 import com.example.taskmananger.R
 import com.example.taskmananger.models.ToDoItem
 import com.example.taskmananger.viewmodels.MainViewModel
 import androidx.lifecycle.Observer
-import com.example.taskmananger.App
+import androidx.lifecycle.ViewModelProvider
 import com.example.taskmananger.utils.AlarmUtil
 import kotlinx.android.synthetic.main.fragment_add_new_to_do.*
-import kotlinx.android.synthetic.main.layout_date_time_picker.*
 import java.util.*
 
 class AddNewToDoFragment : Fragment() {
@@ -34,12 +31,11 @@ class AddNewToDoFragment : Fragment() {
 
     companion object {
         private const val CATEGORY_NAME = "CATEGORY_NAME"
-        fun newInstance(categoryName : String) : AddNewToDoFragment{
-            val args = Bundle()
-            args.putString(CATEGORY_NAME, categoryName)
-            val fragment = AddNewToDoFragment()
-            fragment.arguments = args
-            return fragment
+
+        fun newInstance(categoryName: String): AddNewToDoFragment {
+            return AddNewToDoFragment().apply {
+                arguments = Bundle().apply { putString(CATEGORY_NAME, categoryName) }
+            }
         }
     }
 
@@ -51,7 +47,7 @@ class AddNewToDoFragment : Fragment() {
         val view : View = inflater.inflate(R.layout.fragment_add_new_to_do,container,false)
         categoryName = arguments!!.getString(CATEGORY_NAME) as String
         activity?.let {
-            mainViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mainViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         return view
     }

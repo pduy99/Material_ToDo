@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.example.taskmananger.App
@@ -46,7 +46,7 @@ class ListCategoryFragment : Fragment(), CategoryRecylerViewAdapter.OnItemSelect
     ): View? {
         listCategoryFragmentBinding = FragmentListCategoryBinding.inflate(inflater,container,false).apply {
             activity?.let {
-                mainViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+                mainViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
             }
             lifecycleOwner = viewLifecycleOwner
         }

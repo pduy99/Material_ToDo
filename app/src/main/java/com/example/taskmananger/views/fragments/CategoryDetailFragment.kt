@@ -17,7 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,13 +61,11 @@ class CategoryDetailFragment : Fragment(){
 
     companion object {
         private const val CATEGORY = "Category"
+
         fun newInstance(category: Category): CategoryDetailFragment {
-            val args = Bundle()
-            args.putSerializable(CATEGORY, category as Serializable)
-            val fragment =
-                CategoryDetailFragment()
-            fragment.arguments = args
-            return fragment
+            return CategoryDetailFragment().apply {
+                arguments = Bundle().apply { putSerializable(CATEGORY, category as Serializable) }
+            }
         }
     }
 
@@ -89,7 +87,7 @@ class CategoryDetailFragment : Fragment(){
         categoryListToDoRecyclerView = view.findViewById(R.id.category_list_todo_recyclerview)
         toolbar = view.findViewById(R.id.category_detail_toolbar)
         activity?.let {
-            mainViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mainViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         mainViewModel.setListToDoItemByCategory(category.name)
         collapsingToolbarLayout = view.findViewById(R.id.category_detail_collapsetoolbar)
